@@ -12,7 +12,7 @@ namespace QinSoft.Ioc.Core
     public class ObjectCreateFactory : IObjectCreator
     {
         /// <summary>
-        /// 对象字典
+        /// 对象字典映射
         /// </summary>
         protected ObjectInstanceMapper SingtonObjectDict { get; set; }
 
@@ -75,7 +75,8 @@ namespace QinSoft.Ioc.Core
                 isOk = true;
                 foreach (ParameterInfo parameter in constructorInfo.GetParameters())
                 {
-                    if (dependency.GetConstructPropertyType(parameter.Name) != parameter.ParameterType)
+
+                    if (!parameter.ParameterType.IsAssignableFrom(dependency.GetConstructPropertyObject(parameter.Name)?.Type))
                     {
                         isOk = false;
                         break;
@@ -125,20 +126,18 @@ namespace QinSoft.Ioc.Core
             ConstructorInfo constructorInfo = FindConstructorInfo(dependency);
             if (constructorInfo == null) throw new InvalidProgramException(string.Format("{0}未发现满足条件的构造函数", dependency.Type.FullName));
             List<object> paramList = new List<object>();
-            if (dependency.ConstructDependency != null)
+
+            foreach (ParameterInfo parameterInfo in constructorInfo.GetParameters())
             {
-                foreach (BasePropertyDependency propertyDependency in dependency.ConstructDependency)
-                {
-                    paramList.Add(CreateObject(propertyDependency.Value));
-                }
+                paramList.Add(CreateObject(dependency.GetConstructPropertyObject(parameterInfo.Name)));
             }
             value = constructorInfo.Invoke(paramList.ToArray());
             #endregion
 
             #region 属性赋值
-            if (dependency.PropertyDependency != null)
+            if (dependency.PropertyDependencies != null)
             {
-                foreach (BasePropertyDependency propertyDependency in dependency.PropertyDependency)
+                foreach (BasePropertyDependency propertyDependency in dependency.PropertyDependencies)
                 {
                     PropertyInfo propertyInfo = FindPropertyInfo(dependency, propertyDependency);
                     if (propertyInfo == null) throw new InvalidProgramException(string.Format("{0}未发现属性{1}", dependency.Type.FullName, propertyDependency.Name));
@@ -160,7 +159,7 @@ namespace QinSoft.Ioc.Core
             object value = null;
             if (dependency.IsValueType())
             {
-                 value = GetValue(dependency);
+                value = GetValue(dependency);
             }
             else
             {

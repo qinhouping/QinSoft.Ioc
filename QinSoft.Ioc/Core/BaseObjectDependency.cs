@@ -22,12 +22,12 @@ namespace QinSoft.Ioc.Core
         /// <summary>
         /// 引用类型 构造函数参数依赖
         /// </summary>
-        public IList<BasePropertyDependency> ConstructDependency { get; set; }
+        public IList<BasePropertyDependency> ConstructDependencies { get; set; }
 
         /// <summary>
         /// 引用类型 属性依赖
         /// </summary>
-        public IList<BasePropertyDependency> PropertyDependency { get; set; }
+        public IList<BasePropertyDependency> PropertyDependencies { get; set; }
 
         /// <summary>
         /// 值类型 值
@@ -35,22 +35,21 @@ namespace QinSoft.Ioc.Core
         public System.ValueType Value { get; set; }
 
         /// <summary>
-        /// 通过名称获取构造函数类型
+        /// 通过名称获取构造函数属性类型
         /// </summary>
         /// <param name="Name"></param>
         /// <returns></returns>
-        public virtual Type GetConstructPropertyType(string Name)
+        public virtual BaseObjectDependency GetConstructPropertyObject(string Name)
         {
-            if (ConstructDependency == null) return null;
-            foreach (BasePropertyDependency dependency in ConstructDependency)
+            if (ConstructDependencies == null) return null;
+            foreach (BasePropertyDependency dependency in ConstructDependencies)
             {
                 if (dependency.Name == Name)
                 {
-                    return dependency.Value?.Type;
+                    return dependency.Value;
                 }
             }
             return null;
-
         }
 
         /// <summary>
@@ -59,12 +58,13 @@ namespace QinSoft.Ioc.Core
         /// <returns></returns>
         public virtual bool IsValueType()
         {
+            if (this.Type == null) throw new ArgumentNullException("Type");
             return this.Type.IsValueType;
         }
 
         public override string ToString()
         {
-            return Type?.FullName + "\r\n" + CreateType;
+            return Type?.FullName + " " + CreateType;
         }
     }
 }

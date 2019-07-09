@@ -21,7 +21,7 @@ namespace QinSoft.Ioc.Core
 
         public override string ToString()
         {
-            return Name + "\r\n" + (Value?.ToString());
+            return Name + " " + (Value?.ToString());
         }
     }
 }

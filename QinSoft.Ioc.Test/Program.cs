@@ -13,16 +13,15 @@ namespace QinSoft.Ioc.Test
         {
             BaseObjectDependency objectDependency = new BaseObjectDependency()
             {
-                CreateType = ObjectCreateType.Sington,
+                CreateType = ObjectCreateType.Normal,
                 Type = typeof(TestClass),
-                PropertyDependency = new BasePropertyDependency[]
+                ConstructDependencies = new BasePropertyDependency[]
                 {
                     new BasePropertyDependency()
                     {
-                        Name="A",
+                        Name="Action",
                         Value =new BaseObjectDependency(){
-                             Type=typeof(System.Int32),
-                             Value=2
+                             Type=typeof(ClassDo)
                         }
                     }
                 }
@@ -30,8 +29,16 @@ namespace QinSoft.Ioc.Test
 
             IObjectCreator creator = new ObjectCreateFactory();
 
-            var a = creator.CreateObject(objectDependency);
+            TestClass c = creator.CreateObject(objectDependency) as TestClass;
+            c.Action.hello();
 
+
+            TestClass c2 = creator.CreateObject(objectDependency) as TestClass;
+            c2.Action.hello();
+
+            Console.WriteLine(c == c2);
+
+            Console.ReadKey();
 
         }
 
@@ -39,6 +46,25 @@ namespace QinSoft.Ioc.Test
 
     class TestClass
     {
-        public int A { get; set; }
+        public TestClass(IDo Action)
+        {
+            this.Action = Action;
+        }
+
+        public IDo Action { get; set; }
+    }
+
+    public interface IDo
+    {
+        void hello();
+    }
+
+    public class ClassDo : IDo
+    {
+
+        public void hello()
+        {
+            Console.WriteLine("hello");
+        }
     }
 }
