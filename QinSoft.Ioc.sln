@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29006.145
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinSoft.Ioc", "QinSoft.Ioc\QinSoft.Ioc.csproj", "{2539CAEB-4F7F-40D7-A3DF-2BD22A3EC60B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinSoft.Ioc.Test", "QinSoft.Ioc.Test\QinSoft.Ioc.Test.csproj", "{1E8060DF-90C0-4CD6-8799-419E166ECC5E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2539CAEB-4F7F-40D7-A3DF-2BD22A3EC60B} = {2539CAEB-4F7F-40D7-A3DF-2BD22A3EC60B}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2539CAEB-4F7F-40D7-A3DF-2BD22A3EC60B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2539CAEB-4F7F-40D7-A3DF-2BD22A3EC60B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2539CAEB-4F7F-40D7-A3DF-2BD22A3EC60B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2539CAEB-4F7F-40D7-A3DF-2BD22A3EC60B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E8060DF-90C0-4CD6-8799-419E166ECC5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E8060DF-90C0-4CD6-8799-419E166ECC5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E8060DF-90C0-4CD6-8799-419E166ECC5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E8060DF-90C0-4CD6-8799-419E166ECC5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F84E53D7-0833-4D35-ACB4-3B2F46780CA7}
+	EndGlobalSection
+EndGlobal
