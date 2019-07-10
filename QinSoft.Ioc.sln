@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29006.145
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinSoft.Ioc", "QinSoft.Ioc\QinSoft.Ioc.csproj", "{2539CAEB-4F7F-40D7-A3DF-2BD22A3EC60B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QinSoft.Ioc", "QinSoft.Ioc\QinSoft.Ioc.csproj", "{2539CAEB-4F7F-40D7-A3DF-2BD22A3EC60B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinSoft.Ioc.Test", "QinSoft.Ioc.Test\QinSoft.Ioc.Test.csproj", "{1E8060DF-90C0-4CD6-8799-419E166ECC5E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6D0F05D9-67E6-487B-A6F1-BFB7F03F999E} = {6D0F05D9-67E6-487B-A6F1-BFB7F03F999E}
+		{2539CAEB-4F7F-40D7-A3DF-2BD22A3EC60B} = {2539CAEB-4F7F-40D7-A3DF-2BD22A3EC60B}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinSoft.Ioc.Ext", "QinSoft.Ioc.Ext\QinSoft.Ioc.Ext.csproj", "{6D0F05D9-67E6-487B-A6F1-BFB7F03F999E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2539CAEB-4F7F-40D7-A3DF-2BD22A3EC60B} = {2539CAEB-4F7F-40D7-A3DF-2BD22A3EC60B}
 	EndProjectSection
@@ -24,6 +30,10 @@ Global
 		{1E8060DF-90C0-4CD6-8799-419E166ECC5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E8060DF-90C0-4CD6-8799-419E166ECC5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E8060DF-90C0-4CD6-8799-419E166ECC5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D0F05D9-67E6-487B-A6F1-BFB7F03F999E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D0F05D9-67E6-487B-A6F1-BFB7F03F999E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D0F05D9-67E6-487B-A6F1-BFB7F03F999E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D0F05D9-67E6-487B-A6F1-BFB7F03F999E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

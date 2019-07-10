@@ -4,17 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1E8060DF-90C0-4CD6-8799-419E166ECC5E}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>QinSoft.Ioc.Test</RootNamespace>
-    <AssemblyName>QinSoft.Ioc.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <ProjectGuid>{6D0F05D9-67E6-487B-A6F1-BFB7F03F999E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QinSoft.Ioc.Ext</RootNamespace>
+    <AssemblyName>QinSoft.Ioc.Ext</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +24,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,15 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="QinSoft.Ioc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="QinSoft.Ioc">
       <HintPath>..\QinSoft.Ioc\bin\Debug\net40\QinSoft.Ioc.dll</HintPath>
     </Reference>
-    <Reference Include="QinSoft.Ioc.Ext">
-      <HintPath>..\QinSoft.Ioc.Ext\bin\Debug\QinSoft.Ioc.Ext.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -51,11 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="ConfigObjectCreateFactory.cs" />
+    <Compile Include="ConvertUtils.cs" />
+    <Compile Include="IConfigObjectCreateFactory.cs" />
+    <Compile Include="IocObjectCollection.cs" />
+    <Compile Include="IocObjectElement.cs" />
+    <Compile Include="IocPropertyCollection.cs" />
+    <Compile Include="IocPropertyElement.cs" />
+    <Compile Include="IocSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
