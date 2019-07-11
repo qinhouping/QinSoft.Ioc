@@ -48,7 +48,7 @@ Console.WriteLine(c == c2);
 ### 2. 配置文件使用
 
 #### 要求
-引用 QinSoft.Ioc.dll.Ioc.Ext.dll(__.net40__)
+引用 QinSoft.Ioc.dll和QinSoft.Ioc.Ext.dll(__.net40__)
 #### 配置文件
 ```C#
     <configSections>
