@@ -6,9 +6,9 @@
 ### 1. 代码使用
 
 #### 要求
-引用 QinSoft.Ioc.dll(.net40;.netstandard2.0)
+引用 QinSoft.Ioc.dll(__.net40__;.netstandard2.0)
 #### 具体代码
-```
+```c#
 BaseObjectDependency objectDependency = new BaseObjectDependency()
 {
     CreateType = ObjectCreateType.Sington,
@@ -48,9 +48,9 @@ Console.WriteLine(c == c2);
 ### 2. 配置文件使用
 
 #### 要求
-引用 QinSoft.Ioc.dll.Ioc.Ext.dll(.net40)
+引用 QinSoft.Ioc.dll.Ioc.Ext.dll(__.net40__)
 #### 配置文件
-```
+```C#
     <configSections>
         <section name="Ioc" type="QinSoft.Ioc.Ext.IocSection,QinSoft.Ioc.Ext"/>
     </configSections>
@@ -70,7 +70,7 @@ Console.WriteLine(c == c2);
 ```
 
 #### 代码
-````
+````C#
 IConfigObjectCreateFactory createFactory = new ConfigObjectCreateFactory("Ioc");
 
 TestClass c = createFactory.CreateObject("Test") as TestClass;
@@ -82,3 +82,8 @@ c2.Greet();
 Console.WriteLine(c == c2);
 ````
 ----
+> [QinSoft](https://github.com/qinhouping)
+>> - [QinSoft.Log](https://github.com/qinhouping/QinSoft.Log)
+>> - [QinSoft.MemoryStore](https://github.com/qinhouping/QinSoft.MemoryStore)
+>> - [QinSoft.Event](https://github.com/qinhouping/QinSoft.Event)
+>> - [QinSoft.ORM](https://github.com/qinhouping/QinSoft.ORM)
