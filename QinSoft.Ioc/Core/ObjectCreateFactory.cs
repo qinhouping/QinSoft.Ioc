@@ -122,30 +122,32 @@ namespace QinSoft.Ioc.Core
         protected virtual object GetObject(BaseObjectDependency dependency)
         {
             object value = null;
-            #region 构造对象
-            ConstructorInfo constructorInfo = FindConstructorInfo(dependency);
-            if (constructorInfo == null) throw new InvalidProgramException(string.Format("{0}未发现满足条件的构造函数", dependency.Type.FullName));
-            List<object> paramList = new List<object>();
-
-            foreach (ParameterInfo parameterInfo in constructorInfo.GetParameters())
+            if (!dependency.IsNull)
             {
-                paramList.Add(CreateObject(dependency.GetConstructPropertyObject(parameterInfo.Name)));
-            }
-            value = constructorInfo.Invoke(paramList.ToArray());
-            #endregion
+                #region 构造对象
+                ConstructorInfo constructorInfo = FindConstructorInfo(dependency);
+                if (constructorInfo == null) throw new InvalidProgramException(string.Format("{0}未发现满足条件的构造函数", dependency.Type.FullName));
+                List<object> paramList = new List<object>();
 
-            #region 属性赋值
-            if (dependency.PropertyDependencies != null)
-            {
-                foreach (BasePropertyDependency propertyDependency in dependency.PropertyDependencies)
+                foreach (ParameterInfo parameterInfo in constructorInfo.GetParameters())
                 {
-                    PropertyInfo propertyInfo = FindPropertyInfo(dependency, propertyDependency);
-                    if (propertyInfo == null) throw new InvalidProgramException(string.Format("{0}未发现属性{1}", dependency.Type.FullName, propertyDependency.Name));
-                    propertyInfo.SetValue(value, CreateObject(propertyDependency.Value), null);
+                    paramList.Add(CreateObject(dependency.GetConstructPropertyObject(parameterInfo.Name)));
                 }
-            }
-            #endregion
+                value = constructorInfo.Invoke(paramList.ToArray());
+                #endregion
 
+                #region 属性赋值
+                if (dependency.PropertyDependencies != null)
+                {
+                    foreach (BasePropertyDependency propertyDependency in dependency.PropertyDependencies)
+                    {
+                        PropertyInfo propertyInfo = FindPropertyInfo(dependency, propertyDependency);
+                        if (propertyInfo == null) throw new InvalidProgramException(string.Format("{0}未发现属性{1}", dependency.Type.FullName, propertyDependency.Name));
+                        propertyInfo.SetValue(value, CreateObject(propertyDependency.Value), null);
+                    }
+                }
+                #endregion
+            }
             return value;
         }
 

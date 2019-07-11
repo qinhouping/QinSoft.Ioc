@@ -12,35 +12,53 @@ namespace QinSoft.Ioc.Test
     {
         static void Main(string[] args)
         {
-            //BaseObjectDependency objectDependency = new BaseObjectDependency()
-            //{
-            //    CreateType = ObjectCreateType.Sington,
-            //    Type = typeof(TestClass),
-            //    ConstructDependencies = new BasePropertyDependency[]
-            //    {
-            //        new BasePropertyDependency()
-            //        {
-            //            Name="Action",
-            //            Value =new BaseObjectDependency(){
-            //                 Type=typeof(ClassDo)
-            //            }
-            //        }
-            //    }
-            //};
+            {
+                BaseObjectDependency objectDependency = new BaseObjectDependency()
+                {
+                    CreateType = ObjectCreateType.Sington,
+                    Type = typeof(TestClass),
+                    ConstructDependencies = new BasePropertyDependency[]
+                    {
+                        new BasePropertyDependency()
+                        {
+                            Name="Action",
+                            Value =new BaseObjectDependency(){
+                                 Type=typeof(ActionClass)
+                            }
+                        },
+                        new BasePropertyDependency()
+                        {
+                            Name="Msg",
+                            Value =new BaseObjectDependency(){
+                                 Type=typeof(Guid),
+                                 Value=Guid.NewGuid()
+                            }
+                        },
+                    }
+                };
 
-            //IObjectCreator creator = new ObjectCreateFactory();
+                IObjectCreator creator = new ObjectCreateFactory();
 
-            //TestClass c = creator.CreateObject(objectDependency) as TestClass;
-            //c.Action.hello();
+                TestClass c = creator.CreateObject(objectDependency) as TestClass;
+                c.Greet();
 
 
-            //TestClass c2 = creator.CreateObject(objectDependency) as TestClass;
-            //c2.Action.hello();
+                TestClass c2 = creator.CreateObject(objectDependency) as TestClass;
+                c2.Greet();
 
-            //Console.WriteLine(c == c2);
+                Console.WriteLine(c == c2);
+            }
+            {
+                IConfigObjectCreateFactory createFactory = new ConfigObjectCreateFactory("Ioc");
 
-            IocSection IocConfigure = System.Configuration.ConfigurationManager.GetSection("Ioc") as IocSection;
+                TestClass c = createFactory.CreateObject("Test") as TestClass;
+                c.Greet();
 
+                TestClass c2 = createFactory.CreateObject("Test") as TestClass;
+                c2.Greet();
+
+                Console.WriteLine(c == c2);
+            }
 
             Console.ReadKey();
 
@@ -50,25 +68,33 @@ namespace QinSoft.Ioc.Test
 
     class TestClass
     {
-        public TestClass(IDo Action)
+        private string Msg { get; set; }
+        private IAction Action { get; set; }
+
+        public TestClass(IAction Action, Guid Msg)
         {
             this.Action = Action;
+            this.Msg = Msg.ToString();
         }
 
-        public IDo Action { get; set; }
-    }
-
-    public interface IDo
-    {
-        void hello();
-    }
-
-    public class ClassDo : IDo
-    {
-
-        public void hello()
+        public void Greet()
         {
-            Console.WriteLine("hello");
+            this.Action?.Say(Msg);
+        }
+
+    }
+
+    public interface IAction
+    {
+        void Say(string Msg);
+    }
+
+    public class ActionClass : IAction
+    {
+
+        public void Say(string Msg)
+        {
+            Console.WriteLine(Msg);
         }
     }
 }

@@ -49,15 +49,28 @@ namespace QinSoft.Ioc.Ext
         }
 
         [ConfigurationProperty("Value")]
-        public Object Value
+        public string Value
         {
             get
             {
-                return this["Value"];
+                return this["Value"] as string;
             }
             set
             {
                 this["Value"] = value;
+            }
+        }
+
+        [ConfigurationProperty("IsNull")]
+        public bool IsNull
+        {
+            get
+            {
+                return (bool)this["IsNull"];
+            }
+            set
+            {
+                this["IsNull"] = value;
             }
         }
 
