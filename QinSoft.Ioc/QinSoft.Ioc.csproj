@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,18 +41,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContainerObjectFactoryImp.cs" />
-    <Compile Include="DependencyInjection.cs" />
-    <Compile Include="IocException.cs" />
-    <Compile Include="ObjectContainer.cs" />
-    <Compile Include="ObjectContainerType.cs" />
-    <Compile Include="ObjectFactory.cs" />
-    <Compile Include="ObjectFactoryImp.cs" />
+    <Compile Include="Container\ConstructAttribute.cs" />
+    <Compile Include="Container\DependencyAttribute.cs" />
+    <Compile Include="Container\DependencyInjection.cs" />
+    <Compile Include="Container\DependencyInjectionScaner.cs" />
+    <Compile Include="Container\AttributeDependencyInjectionScanerImp.cs" />
+    <Compile Include="Container\ObjectContainer.cs" />
+    <Compile Include="Container\ObjectContainerImp.cs" />
+    <Compile Include="Dependency\ConfigDependency.cs" />
+    <Compile Include="Dependency\ContainerObjectDependency.cs" />
+    <Compile Include="Dependency\ConverterBase.cs" />
+    <Compile Include="Dependency\IConverter.cs" />
+    <Compile Include="Dependency\DependencyBase.cs" />
+    <Compile Include="Dependency\IDependency.cs" />
+    <Compile Include="Dependency\ObjectDependency.cs" />
+    <Compile Include="Dependency\TypeConverter.cs" />
+    <Compile Include="Factory\ObjectFactory.cs" />
+    <Compile Include="Factory\ObjectFactoryImp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Attribute\" />
-    <Folder Include="Config\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
