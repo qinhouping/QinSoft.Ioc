@@ -14,11 +14,19 @@ namespace QinSoft.Ioc.Dependency
 
         public ContainerObjectDependency(ObjectContainer container, Type type, IConverter converter) : base(converter)
         {
-            if (converter == null) throw new ArgumentNullException("converter");
+            if (container == null) throw new ArgumentNullException("container");
             if (type == null) throw new ArgumentNullException("type");
             this.Container = container;
             this.Type = type;
         }
+        public ContainerObjectDependency(ObjectContainer container, Type type) : base()
+        {
+            if (container == null) throw new ArgumentNullException("container");
+            if (type == null) throw new ArgumentNullException("type");
+            this.Container = container;
+            this.Type = type;
+        }
+
         public override object GetSource()
         {
             return this.Container.Get(Type);

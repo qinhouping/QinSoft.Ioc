@@ -8,6 +8,7 @@ namespace QinSoft.Ioc.Container
     public abstract class DependencyInjectionScaner
     {
         public virtual ObjectContainer ObjectContainer { get; set; }
+
         public abstract DependencyInjection[] Scan();
     }
 }

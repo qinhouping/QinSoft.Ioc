@@ -28,6 +28,10 @@ namespace QinSoft.Ioc.UnitTest
             TestClassA testClassA = container.Get(typeof(TestClassA)) as TestClassA;
             TestClassA testClassA2 = container.Get(typeof(TestClassA)) as TestClassA;
             Assert.AreEqual(testClassA, testClassA2);
+
+            TestClassB testClassB = container.Get(typeof(TestClassB)) as TestClassB;
+            TestClassB testClassB2 = container.Get(typeof(TestClassB)) as TestClassB;
+            Assert.AreEqual(testClassB, testClassB2);
         }
     }
 
@@ -40,6 +44,7 @@ namespace QinSoft.Ioc.UnitTest
         public override DependencyInjection[] Scan()
         {
             List<DependencyInjection> dependencyInjections = new List<DependencyInjection>();
+
             Type type_a = typeof(TestClassA);
             ConstructorInfo constructor_a = type_a.GetConstructor(new Type[] { typeof(object) });
             ParameterInfo parameter_a = constructor_a.GetParameters()[0];
@@ -55,6 +60,16 @@ namespace QinSoft.Ioc.UnitTest
             dependencyInjections.Add(dependencyInjection_a);
 
             Type type_b = typeof(TestClassB);
+            ConstructorInfo constructor_b = type_b.GetConstructor(new Type[] { typeof(TestClassA) });
+            ParameterInfo parameter_b = constructor_b.GetParameters()[0];
+            DependencyInjection dependencyInjection_b = new DependencyInjection();
+            dependencyInjection_b.Type = type_b;
+            dependencyInjection_b.Constructor = constructor_b;
+            dependencyInjection_b.DependencyDictionary = new Dictionary<object, IDependency>()
+            {
+                { parameter_b, new ContainerObjectDependency(this.ObjectContainer,typeof(TestClassA))},
+            };
+            dependencyInjections.Add(dependencyInjection_b);
 
             return dependencyInjections.ToArray();
         }
