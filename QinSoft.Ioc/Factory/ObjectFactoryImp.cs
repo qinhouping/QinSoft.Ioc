@@ -80,8 +80,8 @@ namespace QinSoft.Ioc.Factory
                 Type[] parameterTypes = constructor.GetParameters().Select(u => u.ParameterType).ToArray();
                 if (IsMatch(parameterTypes, argTypes)) constructorInfos.Add(constructor);
             }
-            if (constructorInfos.Count < 1) throw new InvalidProgramException("No constructors were found that exceeded the criteria");
-            if (constructorInfos.Count > 1) throw new InvalidProgramException("Found more than one constructor satisfying the condition");
+            if (constructorInfos.Count < 1) throw new IocException("No constructors were found that exceeded the criteria");
+            if (constructorInfos.Count > 1) throw new IocException("Found more than one constructor satisfying the condition");
             return constructorInfos.First();
         }
 
