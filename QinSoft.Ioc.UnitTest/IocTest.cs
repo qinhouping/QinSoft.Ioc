@@ -25,7 +25,20 @@ namespace QinSoft.Ioc.UnitTest
         [TestMethod]
         public void TestObjectContainerImp()
         {
-            ObjectContainer objectContainer = new ObjectContainerImp(new ObjectFactoryImp(), new AttributeDependencyInjectionScanerImp("QinSoft.Ioc.UnitTest"));
+            ObjectContainer objectContainer = new ObjectContainerImp(new ObjectFactoryImp(), new AttributeDependencyInjectionScanerImp());
+            TestClassB testClassB = objectContainer.Get(typeof(TestClassB)) as TestClassB;
+            TestClassB testClassB2 = objectContainer.Get(typeof(TestClassB)) as TestClassB;
+            Assert.AreEqual(testClassB, testClassB2);
+        }
+
+        [TestMethod]
+        public void TestIocApplicationContext()
+        {
+            IocApplicationContext applicationContext = new IocApplicationContext();
+            ObjectContainer objectContainer = applicationContext
+                .RegisterObjectFactory<ObjectFactoryImp>()
+                .RegisterDependencyInjectionScaner<AttributeDependencyInjectionScanerImp>("QinSoft.Ioc.UnitTest")
+                .BuildObjectContainer<ObjectContainerImp>();
             TestClassB testClassB = objectContainer.Get(typeof(TestClassB)) as TestClassB;
             TestClassB testClassB2 = objectContainer.Get(typeof(TestClassB)) as TestClassB;
             Assert.AreEqual(testClassB, testClassB2);

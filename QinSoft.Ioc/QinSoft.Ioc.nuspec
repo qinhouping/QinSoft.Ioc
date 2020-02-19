@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/qinhouping/QinSoft.Ioc</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>依赖注入组件2.0</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>QinSoft Ioc ObjectFactory</tags>
+  </metadata>
+</package>

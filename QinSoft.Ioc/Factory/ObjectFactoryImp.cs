@@ -6,6 +6,9 @@ using System.Reflection;
 
 namespace QinSoft.Ioc.Factory
 {
+    /// <summary>
+    /// 对象工厂实现
+    /// </summary>
     public class ObjectFactoryImp : ObjectFactory
     {
         /// <summary>

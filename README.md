@@ -1,89 +1,87 @@
 # QinSoft.Ioc
-依赖注入框架
+QinSoft框架下的依赖注入组件
 
-## 使用方法
-----
-### 1. 代码使用
 
-#### 要求
-引用 QinSoft.Ioc.dll(__.net40__;.netstandard2.0)
-#### 具体代码
-```c#
-BaseObjectDependency objectDependency = new BaseObjectDependency()
-{
-    CreateType = ObjectCreateType.Sington,
-    Type = typeof(TestClass),
-    ConstructDependencies = new BasePropertyDependency[]
+### 1. 对象工厂
+ObjectFactoryImp对象工厂实现
+
+### 2. 对象容器
+ObjectContainerImp对象容器实现
+
+### 3. 依赖注入扫描
+1. AttributeDependencyInjectionScanerImp特性依赖注入扫描实现
+2. ComponentAttribute标识ioc依赖组件
+3. ConstructAttribute标识ioc构造入口
+4. DependencyAttribute标识依赖注入点
+
+### 4. Ioc应用程序
+IocApplicationContext
+
+### 5. 测试（使用）案例
+```
+    [TestClass]
+    public class IocTest
     {
-        new BasePropertyDependency()
+        [TestMethod]
+        public void TestObjectFactoryImp()
         {
-            Name="Action",
-            Value =new BaseObjectDependency(){
-            Type=typeof(ActionClass)
-            }
-        },
-        new BasePropertyDependency()
+            ObjectFactoryImp objectFactory = new ObjectFactoryImp();
+            TestClassA testClassA = objectFactory.CreateInstance<TestClassA>("hello", 2);
+            Assert.IsNotNull(testClassA);
+        }
+
+        [TestMethod]
+        public void TestObjectContainerImp()
         {
-            Name="Msg",
-            Value =new BaseObjectDependency(){
-            Type=typeof(Guid),
-            Value=Guid.NewGuid()
-            }
-        },
+            ObjectContainer objectContainer = new ObjectContainerImp(new ObjectFactoryImp(), new AttributeDependencyInjectionScanerImp());
+            TestClassB testClassB = objectContainer.Get(typeof(TestClassB)) as TestClassB;
+            TestClassB testClassB2 = objectContainer.Get(typeof(TestClassB)) as TestClassB;
+            Assert.AreEqual(testClassB, testClassB2);
+        }
+
+        [TestMethod]
+        public void TestIocApplicationContext()
+        {
+            IocApplicationContext applicationContext = new IocApplicationContext();
+            ObjectContainer objectContainer = applicationContext
+                .RegisterObjectFactory<ObjectFactoryImp>()
+                .RegisterDependencyInjectionScaner<AttributeDependencyInjectionScanerImp>("QinSoft.Ioc.UnitTest")
+                .BuildObjectContainer<ObjectContainerImp>();
+            TestClassB testClassB = objectContainer.Get(typeof(TestClassB)) as TestClassB;
+            TestClassB testClassB2 = objectContainer.Get(typeof(TestClassB)) as TestClassB;
+            Assert.AreEqual(testClassB, testClassB2);
+        }
     }
-};
 
-IObjectCreator creator = new ObjectCreateFactory();
+    [Component]
+    public class TestClassA
+    {
+        public string P1 { get; set; }
 
-TestClass c = creator.CreateObject(objectDependency) as TestClass;
-c.Greet();
+        public int P2 { get; set; }
 
+        public TestClassA(string Arg1, int Arg2)
+        {
+            this.P1 = Arg1;
+            this.P2 = Arg2;
+        }
 
-TestClass c2 = creator.CreateObject(objectDependency) as TestClass;
-c2.Greet();
+        [Construct]
+        public TestClassA([ConfigDependency("Arg2", typeof(int))] int Arg2)
+        {
+            this.P2 = Arg2;
+        }
+    }
 
-Console.WriteLine(c == c2);
+    [Component]
+    public class TestClassB
+    {
+        [Construct]
+        public TestClassB(TestClassA classA)
+        {
+            this.classA = classA;
+        }
+
+        public TestClassA classA { get; set; }
+    }
 ```
-----
-### 2. 配置文件使用
-
-#### 要求
-引用 QinSoft.Ioc.dll和QinSoft.Ioc.Ext.dll(__.net40__)
-#### 配置文件
-```C#
-    <configSections>
-        <section name="Ioc" type="QinSoft.Ioc.Ext.IocSection,QinSoft.Ioc.Ext"/>
-    </configSections>
-
-    <Ioc>
-        <Objects>
-            <Object Name="Action" Type="QinSoft.Ioc.Test.ActionClass,QinSoft.Ioc.Test" IsNull="True"></Object>
-            <Object Name="Msg" Type="System.Guid" Value="e7b14227-7635-4b66-84ad-76f8ef294232"></Object>
-            <Object Name="Test" Type="QinSoft.Ioc.Test.TestClass,QinSoft.Ioc.Test" CreateType="Sington">
-            <ConstructProperties>
-                <Property Name="Action" ObjectName="Action"></Property>
-                <Property Name="Msg" ObjectName="Msg"></Property>
-            </ConstructProperties>
-        </Object>
-    </Objects>
-  </Ioc>
-```
-
-#### 代码
-````C#
-IConfigObjectCreateFactory createFactory = new ConfigObjectCreateFactory("Ioc");
-
-TestClass c = createFactory.CreateObject("Test") as TestClass;
-c.Greet();
-
-TestClass c2 = createFactory.CreateObject("Test") as TestClass;
-c2.Greet();
-
-Console.WriteLine(c == c2);
-````
-----
-> [QinSoft](https://github.com/qinhouping)
->> - [QinSoft.Log](https://github.com/qinhouping/QinSoft.Log)
->> - [QinSoft.MemoryStore](https://github.com/qinhouping/QinSoft.MemoryStore)
->> - [QinSoft.Event](https://github.com/qinhouping/QinSoft.Event)
->> - [QinSoft.ORM](https://github.com/qinhouping/QinSoft.ORM)

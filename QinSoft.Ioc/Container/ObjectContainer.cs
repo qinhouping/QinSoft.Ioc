@@ -49,5 +49,10 @@ namespace QinSoft.Ioc.Container
         /// <param name="instance">实例</param>
         /// <returns>是否存在</returns>
         public abstract bool Exists(object instance);
+
+        /// <summary>
+        /// 刷新依赖注入
+        /// </summary>
+        public abstract void RefreshDependencyInjections();
     }
 }

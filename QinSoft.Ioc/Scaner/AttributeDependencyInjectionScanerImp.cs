@@ -17,16 +17,35 @@ namespace QinSoft.Ioc.Scaner
         /// <summary>
         /// 命名空间
         /// </summary>
-        protected string[] namespaces { get; set; }
+        protected Assembly[] Assemblies { get; set; }
 
         /// <summary>
-        /// 命名空间构造函数
+        /// 构造函数
         /// </summary>
-        /// <param name="namespaces">命名空间列表</param>
-        public AttributeDependencyInjectionScanerImp(params string[] namespaces)
+        /// <param name="assemblies">程序集名称列表</param>
+        public AttributeDependencyInjectionScanerImp(params string[] assemblies)
         {
-            if (namespaces == null) throw new ArgumentNullException("namespaces");
-            this.namespaces = namespaces;
+            if (assemblies == null) throw new ArgumentNullException("assemblies");
+            this.Assemblies = assemblies.Select(u => Assembly.Load(u)).ToArray();
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="assemblies">程序集列表</param>
+        public AttributeDependencyInjectionScanerImp(params Assembly[] assemblies)
+        {
+            if (assemblies == null) throw new ArgumentNullException("assemblies");
+            this.Assemblies = assemblies;
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// 将会加载所有程序集
+        /// </summary>
+        public AttributeDependencyInjectionScanerImp()
+        {
+            this.Assemblies = AppDomain.CurrentDomain.GetAssemblies();
         }
 
         /// <summary>
@@ -35,23 +54,23 @@ namespace QinSoft.Ioc.Scaner
         /// <returns>依赖注入列表</returns>
         public override DependencyInjection[] Scan()
         {
-            Type[] types = GetTypes(this.namespaces);
+            Type[] types = GetTypes(this.Assemblies);
             return GetDependencyInjections(types);
         }
 
         /// <summary>
-        /// 获取命名空间类型
+        /// 获取可用类型
         /// 通过ComponentAttribute指定
         /// </summary>
-        /// <param name="namespaces">命名空间</param>
+        /// <param name="Assemblies">程序集列表</param>
         /// <returns>类型列表</returns>
-        protected virtual Type[] GetTypes(string[] namespaces)
+        protected virtual Type[] GetTypes(Assembly[] Assemblies)
         {
-            if (namespaces == null) throw new ArgumentNullException("namespaces");
+            if (Assemblies == null) throw new ArgumentNullException("namespaces");
             IEnumerable<Type> types = new List<Type>();
-            foreach (string _space in namespaces)
+            foreach (Assembly assembly in Assemblies)
             {
-                types = types.Union(Assembly.Load(_space).GetTypes().Where(u =>
+                types = types.Union(assembly.GetTypes().Where(u =>
                 {
                     return System.Attribute.GetCustomAttribute(u, typeof(ComponentAttribute)) != null;
                 }));

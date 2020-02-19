@@ -199,5 +199,13 @@ namespace QinSoft.Ioc.Container
                 GC.Collect();
             }
         }
+
+        /// <summary>
+        /// 刷新依赖注入
+        /// </summary>
+        public override void RefreshDependencyInjections()
+        {
+            DependencyInjections = this.DependencyInjectionScaner.Scan();
+        }
     }
 }
