@@ -36,7 +36,7 @@ namespace QinSoft.Ioc
         /// <typeparam name="T">对象工厂类型</typeparam>
         /// <param name="parameters">构造参数</param>
         /// <returns>当前应用上下文</returns>
-        public virtual IocApplicationContext RegisterObjectFactory<T>(params object[] parameters)
+        public virtual IocApplicationContext RegisterObjectFactory<T>(params object[] parameters) where T : ObjectFactory
         {
             this.ObjectFactory = new ObjectFactoryImp().CreateInstance(typeof(T), parameters) as ObjectFactory;
             return this;
@@ -48,7 +48,7 @@ namespace QinSoft.Ioc
         /// <typeparam name="T">依赖扫描类型</typeparam>
         /// <param name="assemblies">程序集名称列表</param>
         /// <returns>当前应用上下文</returns>
-        public virtual IocApplicationContext RegisterDependencyInjectionScaner<T>(params string[] assemblies)
+        public virtual IocApplicationContext RegisterDependencyInjectionScaner<T>(params string[] assemblies) where T : DependencyInjectionScaner
         {
             this.DependencyInjectionScaner = new ObjectFactoryImp().CreateInstance(typeof(T), new object[] { assemblies }) as DependencyInjectionScaner;
             return this;
@@ -60,7 +60,7 @@ namespace QinSoft.Ioc
         /// <typeparam name="T">依赖扫描类型</typeparam>
         /// <param name="assemblies">程序集列表</param>
         /// <returns>当前应用上下文</returns>
-        public virtual IocApplicationContext RegisterDependencyInjectionScaner<T>(params Assembly[] assemblies)
+        public virtual IocApplicationContext RegisterDependencyInjectionScaner<T>(params Assembly[] assemblies) where T : DependencyInjectionScaner
         {
             this.DependencyInjectionScaner = new ObjectFactoryImp().CreateInstance(typeof(T), new object[] { assemblies }) as DependencyInjectionScaner;
             return this;
@@ -71,7 +71,7 @@ namespace QinSoft.Ioc
         /// </summary>
         /// <typeparam name="T">依赖扫描类型</typeparam>
         /// <returns>当前应用上下文</returns>
-        public virtual IocApplicationContext RegisterDependencyInjectionScaner<T>()
+        public virtual IocApplicationContext RegisterDependencyInjectionScaner<T>() where T : DependencyInjectionScaner
         {
             this.DependencyInjectionScaner = new ObjectFactoryImp().CreateInstance(typeof(T)) as DependencyInjectionScaner;
             return this;
@@ -82,7 +82,7 @@ namespace QinSoft.Ioc
         /// </summary>
         /// <typeparam name="T">对象容器类型</typeparam>
         /// <returns>对象容器实例</returns>
-        public virtual ObjectContainer BuildObjectContainer<T>()
+        public virtual ObjectContainer BuildObjectContainer<T>() where T : ObjectContainer
         {
             if (ObjectContainer == null)
             {

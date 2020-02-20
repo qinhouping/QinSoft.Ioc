@@ -25,29 +25,6 @@ namespace QinSoft.Ioc.Factory
         }
 
         /// <summary>
-        /// 使用无参构造函数创建实例
-        /// </summary>
-        /// <param name="type">类型</param>
-        /// <returns>对象实例</returns>
-        public override object CreateInstance(Type type)
-        {
-            if (type == null) throw new ArgumentNullException("type");
-            ConstructorInfo constructor = type.GetConstructor(new Type[] { });
-            return CreateInstance(type, new object[] { });
-        }
-
-        /// <summary>
-        /// 使用无参构造函数创建实例
-        /// </summary>
-        /// <typeparam name="T">对象类型</typeparam>
-        /// <returns>对象实例</returns>
-        public virtual T CreateInstance<T>() where T : class
-        {
-            Type type = typeof(T);
-            return CreateInstance(type) as T;
-        }
-
-        /// <summary>
         /// 判断类型是否匹配
         /// </summary>
         /// <param name="parameterTypes">构造函数参数类型</param>
@@ -86,6 +63,28 @@ namespace QinSoft.Ioc.Factory
             if (constructorInfos.Count < 1) throw new IocException("No constructors were found that exceeded the criteria");
             if (constructorInfos.Count > 1) throw new IocException("Found more than one constructor satisfying the condition");
             return constructorInfos.First();
+        }
+
+        /// <summary>
+        /// 使用无参构造函数创建实例
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <returns>对象实例</returns>
+        public override object CreateInstance(Type type)
+        {
+            if (type == null) throw new ArgumentNullException("type");
+            return CreateInstance(type, new object[] { });
+        }
+
+        /// <summary>
+        /// 使用无参构造函数创建实例
+        /// </summary>
+        /// <typeparam name="T">对象类型</typeparam>
+        /// <returns>对象实例</returns>
+        public virtual T CreateInstance<T>() where T : class
+        {
+            Type type = typeof(T);
+            return CreateInstance(type) as T;
         }
 
         /// <summary>
