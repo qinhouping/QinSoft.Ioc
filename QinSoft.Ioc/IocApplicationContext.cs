@@ -38,7 +38,7 @@ namespace QinSoft.Ioc
         /// <returns>当前应用上下文</returns>
         public virtual IocApplicationContext RegisterObjectFactory<T>(params object[] parameters) where T : ObjectFactory
         {
-            this.ObjectFactory = new ObjectFactoryImp().CreateInstance(typeof(T), parameters) as ObjectFactory;
+            this.ObjectFactory = new ObjectFactoryImp().CreateInstance<T>(parameters) as ObjectFactory;
             return this;
         }
 
@@ -50,7 +50,7 @@ namespace QinSoft.Ioc
         /// <returns>当前应用上下文</returns>
         public virtual IocApplicationContext RegisterDependencyInjectionScaner<T>(params string[] assemblies) where T : DependencyInjectionScaner
         {
-            this.DependencyInjectionScaner = new ObjectFactoryImp().CreateInstance(typeof(T), new object[] { assemblies }) as DependencyInjectionScaner;
+            this.DependencyInjectionScaner = new ObjectFactoryImp().CreateInstance<T>(new object[] { assemblies }) as DependencyInjectionScaner;
             return this;
         }
 
@@ -62,7 +62,7 @@ namespace QinSoft.Ioc
         /// <returns>当前应用上下文</returns>
         public virtual IocApplicationContext RegisterDependencyInjectionScaner<T>(params Assembly[] assemblies) where T : DependencyInjectionScaner
         {
-            this.DependencyInjectionScaner = new ObjectFactoryImp().CreateInstance(typeof(T), new object[] { assemblies }) as DependencyInjectionScaner;
+            this.DependencyInjectionScaner = new ObjectFactoryImp().CreateInstance<T>(new object[] { assemblies }) as DependencyInjectionScaner;
             return this;
         }
 
@@ -73,7 +73,7 @@ namespace QinSoft.Ioc
         /// <returns>当前应用上下文</returns>
         public virtual IocApplicationContext RegisterDependencyInjectionScaner<T>() where T : DependencyInjectionScaner
         {
-            this.DependencyInjectionScaner = new ObjectFactoryImp().CreateInstance(typeof(T)) as DependencyInjectionScaner;
+            this.DependencyInjectionScaner = new ObjectFactoryImp().CreateInstance<T>() as DependencyInjectionScaner;
             return this;
         }
 
@@ -86,7 +86,7 @@ namespace QinSoft.Ioc
         {
             if (ObjectContainer == null)
             {
-                ObjectContainer = new ObjectFactoryImp().CreateInstance(typeof(T), this.ObjectFactory, this.DependencyInjectionScaner) as ObjectContainer;
+                ObjectContainer = new ObjectFactoryImp().CreateInstance<T>(this.ObjectFactory, this.DependencyInjectionScaner) as ObjectContainer;
             }
             return ObjectContainer;
         }

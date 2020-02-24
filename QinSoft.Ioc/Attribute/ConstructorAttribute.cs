@@ -9,7 +9,7 @@ namespace QinSoft.Ioc.Attribute
     /// 构造函数特性
     /// </summary>
     [AttributeUsage(AttributeTargets.Constructor)]
-    public class ConstructAttribute : System.Attribute
+    public class ConstructorAttribute : System.Attribute
     {
     }
 }

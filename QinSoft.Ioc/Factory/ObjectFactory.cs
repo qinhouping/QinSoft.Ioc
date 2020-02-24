@@ -20,13 +20,6 @@ namespace QinSoft.Ioc.Factory
         public abstract object CreateInstance(ConstructorInfo constructor, params object[] args);
 
         /// <summary>
-        /// 使用无参构造函数创建实例
-        /// </summary>
-        /// <param name="type">类型</param>
-        /// <returns>对象实例</returns>
-        public abstract object CreateInstance(Type type);
-
-        /// <summary>
         /// 根据参数创建实例
         /// </summary>
         /// <param name="type">类型</param>

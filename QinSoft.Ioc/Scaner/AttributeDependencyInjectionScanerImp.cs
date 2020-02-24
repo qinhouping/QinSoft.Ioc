@@ -92,7 +92,7 @@ namespace QinSoft.Ioc.Scaner
             {
                 constructorInfos = constructorInfos.Where(u =>
                 {
-                    return System.Attribute.GetCustomAttribute(u, typeof(ConstructAttribute)) != null;
+                    return System.Attribute.GetCustomAttribute(u, typeof(ConstructorAttribute)) != null;
                 }).ToArray();
                 if (constructorInfos.Length > 1) throw new IocException(string.Format("{0} too many constructors found, check constrct attribute", type));
                 if (constructorInfos.Length == 0) throw new IocException(string.Format("{0} no constructors found that meet the criteria", type));

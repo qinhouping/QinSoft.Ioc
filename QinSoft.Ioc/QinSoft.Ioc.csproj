@@ -45,10 +45,12 @@
     <Compile Include="Attribute\ComponentAttribute.cs" />
     <Compile Include="Attribute\ComponentDependencyAttribute.cs" />
     <Compile Include="Attribute\ConfigDependencyAttribute.cs" />
-    <Compile Include="Attribute\ConstructAttribute.cs" />
+    <Compile Include="Attribute\ConstructorAttribute.cs" />
     <Compile Include="Attribute\DependencyAttribute.cs" />
     <Compile Include="Container\DependencyInjection.cs" />
     <Compile Include="IocException.cs" />
+    <Compile Include="IocObjectContainerExtends.cs" />
+    <Compile Include="IocObjectFactoryExtends.cs" />
     <Compile Include="Scaner\DependencyInjectionScaner.cs" />
     <Compile Include="Scaner\AttributeDependencyInjectionScanerImp.cs" />
     <Compile Include="Container\ObjectContainer.cs" />
