@@ -24,6 +24,13 @@ namespace QinSoft.Ioc.Factory
             return instance;
         }
 
+        /// <summary>
+        /// 判断构造函数是否满足参数要求
+        /// </summary>
+        /// <param name="constructor">构造函数</param>
+        /// <param name="args">参数</param>
+        /// <param name="parameters">返回参数</param>
+        /// <returns>是否匹配</returns>
         protected virtual bool MatchConstructor(ConstructorInfo constructor, object[] args, out object[] parameters)
         {
             if (constructor == null) throw new ArgumentNullException("constructor");
@@ -68,7 +75,8 @@ namespace QinSoft.Ioc.Factory
         /// 获取可用构造函数
         /// </summary>
         /// <param name="type">类型</param>
-        /// <param name="argTypes">参数类型</param>
+        /// <param name="args">参数</param>
+        /// <param name="parameters">返回参数</param>
         /// <returns>构造函数</returns>
         protected virtual ConstructorInfo FindConstructor(Type type, object[] args, out object[] parameters)
         {
