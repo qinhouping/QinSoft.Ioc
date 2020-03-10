@@ -43,6 +43,16 @@ namespace QinSoft.Ioc.UnitTest
             TestClassB testClassB2 = objectContainer.Get<TestClassBB>();
             Assert.AreEqual(testClassB, testClassB2);
         }
+
+        [TestMethod]
+        public void TestTypeExtends()
+        {
+            FieldInfo field = typeof(TestClassBB).GetField("classAA", BindingFlags.NonPublic | BindingFlags.Instance, true);
+            Assert.IsNotNull(field);
+
+            PropertyInfo property = typeof(TestClassBB).GetProperty("classA", BindingFlags.NonPublic | BindingFlags.Instance, true);
+            Assert.IsNotNull(property);
+        }
     }
 
     [Component]
