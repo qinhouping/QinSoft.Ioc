@@ -15,22 +15,22 @@ namespace QinSoft.Ioc.Attribute
         /// <summary>
         /// 配置关键字
         /// </summary>
-        public string Key { get; protected set; }
+        public string Key { get; set; }
 
         /// <summary>
-        /// 转换器
+        /// 参数类型
         /// </summary>
-        public IConverter Converter { get; protected set; }
+        public Type Type { get; set; }
 
         public ConfigDependencyAttribute(string key, Type type = null) : base()
         {
             this.Key = key;
-            this.Converter = type == null ? new ConverterBase() : new TypeConverter(type);
+            this.Type = type;
         }
 
         public override IDependency GetDependency()
         {
-            return new ConfigDependency(Key, this.Converter);
+            return new ConfigDependency(Key, this.Type == null ? new ConverterBase() : new TypeConverter(Type));
         }
     }
 }

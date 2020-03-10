@@ -88,7 +88,7 @@ namespace QinSoft.Ioc.Scaner
         {
             if (type == null) throw new ArgumentNullException("type");
             ConstructorInfo[] constructorInfos = type.GetConstructors();
-            if (constructorInfos.Length != 1)
+            if (constructorInfos.Length > 1)
             {
                 constructorInfos = constructorInfos.Where(u =>
                 {
@@ -103,22 +103,32 @@ namespace QinSoft.Ioc.Scaner
         /// <summary>
         /// 创建默认依赖特性
         /// </summary>
-        /// <param name="type">指定类型</param>
         /// <returns>依赖特性</returns>
-        protected virtual DependencyAttribute CreateDependencyAttribute(Type type)
+        protected virtual DependencyAttribute CreateDependencyAttribute()
         {
-            if (type == null) throw new ArgumentNullException("type");
-            return new ComponentDependencyAttribute(type);
+            return new ComponentDependencyAttribute();
         }
 
         /// <summary>
         /// 依赖特性设置
         /// </summary>
         /// <param name="dependencyAttribute">依赖特性</param>
-        protected virtual void DependencyAttributeSetting(DependencyAttribute dependencyAttribute)
+        /// <param name="types">类型列表</param>
+        /// <param name="type">指定类型</param>
+        protected virtual void DependencyAttributeSetting(DependencyAttribute dependencyAttribute, Type[] types, Type type)
         {
             if (dependencyAttribute == null) return;
             dependencyAttribute.DependencyInjectionScaner = this;
+            //配置依赖类型自动设置
+            if (dependencyAttribute is ConfigDependencyAttribute && (dependencyAttribute as ConfigDependencyAttribute).Type == null)
+            {
+                (dependencyAttribute as ConfigDependencyAttribute).Type = type;
+            }
+            //组件依赖类型自动设置
+            if (dependencyAttribute is ComponentDependencyAttribute && (dependencyAttribute as ComponentDependencyAttribute).Type == null)
+            {
+                (dependencyAttribute as ComponentDependencyAttribute).Type = FindDependencyType(types, type);
+            }
         }
 
         /// <summary>
@@ -147,8 +157,8 @@ namespace QinSoft.Ioc.Scaner
         {
             if (types == null) throw new ArgumentNullException("types");
             if (parameterInfo == null) throw new ArgumentNullException("parameterInfo");
-            DependencyAttribute dependencyAttribute = System.Attribute.GetCustomAttribute(parameterInfo, typeof(DependencyAttribute)) as DependencyAttribute ?? CreateDependencyAttribute(FindDependencyType(types, parameterInfo.ParameterType));
-            DependencyAttributeSetting(dependencyAttribute);
+            DependencyAttribute dependencyAttribute = System.Attribute.GetCustomAttribute(parameterInfo, typeof(DependencyAttribute)) as DependencyAttribute ?? CreateDependencyAttribute();
+            DependencyAttributeSetting(dependencyAttribute, types, parameterInfo.ParameterType);
             return dependencyAttribute.GetDependency();
         }
 
@@ -159,12 +169,29 @@ namespace QinSoft.Ioc.Scaner
         /// <param name="memberInfo">成员信息</param>
         /// <param name="dependency">依赖</param>
         /// <returns>是否获取成功</returns>
-        protected virtual bool GetDependency(Type[] types, MemberInfo memberInfo, out IDependency dependency)
+        protected virtual bool GetDependency(Type[] types, FieldInfo fieldInfo, out IDependency dependency)
         {
             if (types == null) throw new ArgumentNullException("types");
-            if (memberInfo == null) throw new ArgumentNullException("parameterInfo");
-            DependencyAttribute dependencyAttribute = (System.Attribute.GetCustomAttribute(memberInfo, typeof(DependencyAttribute))) as DependencyAttribute;
-            DependencyAttributeSetting(dependencyAttribute);
+            if (fieldInfo == null) throw new ArgumentNullException("fieldInfo");
+            DependencyAttribute dependencyAttribute = (System.Attribute.GetCustomAttribute(fieldInfo, typeof(DependencyAttribute))) as DependencyAttribute;
+            DependencyAttributeSetting(dependencyAttribute, types, fieldInfo.FieldType);
+            dependency = dependencyAttribute?.GetDependency();
+            return dependencyAttribute != null;
+        }
+
+        /// <summary>
+        /// 获取依赖
+        /// </summary>
+        /// <param name="types">类型列表</param>
+        /// <param name="propertyInfo">成员信息</param>
+        /// <param name="dependency">依赖</param>
+        /// <returns>是否获取成功</returns>
+        protected virtual bool GetDependency(Type[] types, PropertyInfo propertyInfo, out IDependency dependency)
+        {
+            if (types == null) throw new ArgumentNullException("types");
+            if (propertyInfo == null) throw new ArgumentNullException("propertyInfo");
+            DependencyAttribute dependencyAttribute = (System.Attribute.GetCustomAttribute(propertyInfo, typeof(DependencyAttribute))) as DependencyAttribute;
+            DependencyAttributeSetting(dependencyAttribute, types, propertyInfo.PropertyType);
             dependency = dependencyAttribute?.GetDependency();
             return dependencyAttribute != null;
         }
@@ -187,14 +214,14 @@ namespace QinSoft.Ioc.Scaner
             {
                 dependencyInjection.DependencyDictionary[pinfo] = GetDependency(types, pinfo);
             }
-            foreach (FieldInfo finfo in dependencyInjection.Type.GetFields())
+            foreach (FieldInfo finfo in dependencyInjection.Type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, true))
             {
                 if (GetDependency(types, finfo, out IDependency dependency))
                 {
                     dependencyInjection.DependencyDictionary[finfo] = dependency;
                 }
             }
-            foreach (PropertyInfo pinfo in dependencyInjection.Type.GetProperties())
+            foreach (PropertyInfo pinfo in dependencyInjection.Type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, true))
             {
                 if (GetDependency(types, pinfo, out IDependency dependency))
                 {

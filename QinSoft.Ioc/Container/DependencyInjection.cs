@@ -27,23 +27,6 @@ namespace QinSoft.Ioc.Container
         /// </summary>
         public IDictionary<object, IDependency> DependencyDictionary { get; set; }
 
-        //public override bool Equals(object obj)
-        //{
-        //    if (obj is DependencyInjection)
-        //    {
-        //        return this.Type?.Equals((obj as DependencyInjection)?.Type) == true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-
-        //public override int GetHashCode()
-        //{
-        //    return Type?.GetHashCode() ?? 0;
-        //}
-
         public override string ToString()
         {
             return string.Format("{0} {1} {2}", Type, Constructor, DependencyDictionary);

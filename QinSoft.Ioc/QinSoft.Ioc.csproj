@@ -66,6 +66,7 @@
     <Compile Include="Factory\ObjectFactory.cs" />
     <Compile Include="Factory\ObjectFactoryImp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeExtends.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -14,13 +14,13 @@ namespace QinSoft.Ioc.Attribute
         /// <summary>
         /// 指定类型
         /// </summary>
-        public Type Type { get; protected set; }
+        public Type Type { get; set; }
 
-        public ComponentDependencyAttribute(Type type)
+        public ComponentDependencyAttribute(Type type = null)
         {
-            if (type == null) throw new ArgumentNullException("type");
             this.Type = type;
         }
+
         public override IDependency GetDependency()
         {
             return new ContainerObjectDependency(this.DependencyInjectionScaner.ObjectContainer, Type);

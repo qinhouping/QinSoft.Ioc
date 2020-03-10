@@ -18,7 +18,7 @@ namespace QinSoft.Ioc.UnitTest
         public void TestObjectFactoryImp()
         {
             ObjectFactoryImp objectFactory = new ObjectFactoryImp();
-            TestClassA testClassA = objectFactory.CreateInstance<TestClassA>(1, "QinSoft.Ioc");
+            TestClassA testClassA = objectFactory.CreateInstance<TestClassA>();
             Assert.IsNotNull(testClassA);
         }
 
@@ -26,8 +26,8 @@ namespace QinSoft.Ioc.UnitTest
         public void TestObjectContainerImp()
         {
             ObjectContainer objectContainer = new ObjectContainerImp(new ObjectFactoryImp(), new AttributeDependencyInjectionScanerImp());
-            TestClassB testClassB = objectContainer.Get(typeof(TestClassB)) as TestClassB;
-            TestClassB testClassB2 = objectContainer.Get(typeof(TestClassB)) as TestClassB;
+            TestClassB testClassB = objectContainer.Get(typeof(TestClassBB)) as TestClassBB;
+            TestClassB testClassB2 = objectContainer.Get(typeof(TestClassBB)) as TestClassBB;
             Assert.AreEqual(testClassB, testClassB2);
         }
 
@@ -37,10 +37,10 @@ namespace QinSoft.Ioc.UnitTest
             IocApplicationContext applicationContext = new IocApplicationContext();
             ObjectContainer objectContainer = applicationContext
                 .RegisterObjectFactory<ObjectFactoryImp>()
-                .RegisterDependencyInjectionScaner<AttributeDependencyInjectionScanerImp>("QinSoft.Ioc.UnitTest")
+                .RegisterDependencyInjectionScaner<AttributeDependencyInjectionScanerImp>()
                 .BuildObjectContainer<ObjectContainerImp>();
-            TestClassB testClassB = objectContainer.Get(typeof(TestClassB)) as TestClassB;
-            TestClassB testClassB2 = objectContainer.Get(typeof(TestClassB)) as TestClassB;
+            TestClassB testClassB = objectContainer.Get<TestClassBB>();
+            TestClassB testClassB2 = objectContainer.Get<TestClassBB>();
             Assert.AreEqual(testClassB, testClassB2);
         }
     }
@@ -48,27 +48,30 @@ namespace QinSoft.Ioc.UnitTest
     [Component]
     public class TestClassA
     {
+        [ConfigDependency("Arg1")]
         public int P1 { get; private set; }
 
+        [ConfigDependency("Arg2")]
         public string P2 { get; private set; }
+    }
 
-        [Constructor]
-        public TestClassA([ConfigDependency("Arg1", typeof(int))] int Arg1, [ConfigDependency("Arg2")] string Arg2 = "test")
-        {
-            this.P1 = Arg1;
-            this.P2 = Arg2;
-        }
+    public abstract class TestClassB
+    {
+        [ComponentDependency]
+        private TestClassA classA { get; set; }
+
+        [ComponentDependency]
+        private TestClassA classAA;
+
+        public abstract string DoSomething();
     }
 
     [Component]
-    public class TestClassB
+    public class TestClassBB : TestClassB
     {
-        public TestClassA classA { get; private set; }
-
-        [Constructor]
-        public TestClassB(TestClassA classA)
+        public override string DoSomething()
         {
-            this.classA = classA;
+            return "test";
         }
     }
 }

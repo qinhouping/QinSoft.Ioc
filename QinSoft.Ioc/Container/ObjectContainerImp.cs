@@ -172,7 +172,7 @@ namespace QinSoft.Ioc.Container
                 }
                 object instance = ObjectFactory.CreateInstance(dependencyInjection.Constructor, args.ToArray());
 
-                foreach (FieldInfo finfo in type.GetFields())
+                foreach (FieldInfo finfo in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, true))
                 {
                     if (dependencyInjection.DependencyDictionary.ContainsKey(finfo))
                     {
@@ -180,9 +180,9 @@ namespace QinSoft.Ioc.Container
                     }
                 }
 
-                foreach (PropertyInfo pinfo in type.GetProperties())
+                foreach (PropertyInfo pinfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, true))
                 {
-                    if (dependencyInjection.DependencyDictionary.ContainsKey(pinfo))
+                    if (dependencyInjection.DependencyDictionary.ContainsKey(pinfo) && pinfo.CanWrite)
                     {
                         pinfo.SetValue(instance, dependencyInjection.DependencyDictionary[pinfo].GetValue(), null);
                     }
