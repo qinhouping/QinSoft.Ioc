@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/qinhouping/QinSoft.Ioc</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>逻辑优化并支持私有属性和字段添加依赖注入特性</releaseNotes>
+    <releaseNotes>bug修复</releaseNotes>
     <copyright>Copyright QinSoft 2020</copyright>
     <tags>QinSoft Ioc ObjectFactory</tags>
   </metadata>
