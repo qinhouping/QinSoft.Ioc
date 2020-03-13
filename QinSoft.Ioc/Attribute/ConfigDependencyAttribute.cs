@@ -30,7 +30,8 @@ namespace QinSoft.Ioc.Attribute
 
         public override IDependency GetDependency()
         {
-            return new ConfigDependency(Key, this.Type == null ? new ConverterBase() : new TypeConverter(Type));
+            if (Type == null) return new ConfigDependency(Key);
+            else return new ConfigDependency(Key, new TypeConverter(Type));
         }
     }
 }

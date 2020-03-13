@@ -82,8 +82,8 @@ namespace QinSoft.Ioc.Scaner
         /// 获取类型构造函数
         /// 如果一个构造函数，将使用该构造函数；如多个构造函数，请使用ConstructAttribute指定。
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="type">类型</param>
+        /// <returns>构造函数</returns>
         protected virtual ConstructorInfo GetConstructor(Type type)
         {
             if (type == null) throw new ArgumentNullException("type");
