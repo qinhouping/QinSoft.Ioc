@@ -90,5 +90,14 @@ namespace QinSoft.Ioc
             }
             return ObjectContainer;
         }
+
+        /// <summary>
+        /// 释放当前对象容器
+        /// </summary>
+        public virtual void DisposeObjectContainer()
+        {
+            ObjectContainer?.Clear();
+            ObjectContainer = null;
+        }
     }
 }
