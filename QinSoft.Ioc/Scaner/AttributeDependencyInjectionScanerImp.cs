@@ -173,7 +173,7 @@ namespace QinSoft.Ioc.Scaner
         {
             if (types == null) throw new ArgumentNullException("types");
             if (fieldInfo == null) throw new ArgumentNullException("fieldInfo");
-            DependencyAttribute dependencyAttribute = (System.Attribute.GetCustomAttribute(fieldInfo, typeof(DependencyAttribute))) as DependencyAttribute;
+            DependencyAttribute dependencyAttribute = System.Attribute.GetCustomAttribute(fieldInfo, typeof(DependencyAttribute)) as DependencyAttribute;
             DependencyAttributeSetting(dependencyAttribute, types, fieldInfo.FieldType);
             dependency = dependencyAttribute?.GetDependency();
             return dependencyAttribute != null;
@@ -190,7 +190,7 @@ namespace QinSoft.Ioc.Scaner
         {
             if (types == null) throw new ArgumentNullException("types");
             if (propertyInfo == null) throw new ArgumentNullException("propertyInfo");
-            DependencyAttribute dependencyAttribute = (System.Attribute.GetCustomAttribute(propertyInfo, typeof(DependencyAttribute))) as DependencyAttribute;
+            DependencyAttribute dependencyAttribute = System.Attribute.GetCustomAttribute(propertyInfo, typeof(DependencyAttribute)) as DependencyAttribute;
             DependencyAttributeSetting(dependencyAttribute, types, propertyInfo.PropertyType);
             dependency = dependencyAttribute?.GetDependency();
             return dependencyAttribute != null;
