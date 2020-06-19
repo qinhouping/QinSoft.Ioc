@@ -51,7 +51,7 @@ IocApplicationContext
             ObjectContainer objectContainer = applicationContext
                 .RegisterObjectFactory<ObjectFactoryImp>()
                 .RegisterDependencyInjectionScaner<AttributeDependencyInjectionScanerImp>()
-                .BuildObjectContainer<ObjectContainerImp>();
+                .BuildObjectContainer<ObjectContainerImp>().ObjectContainer;
             TestClassB testClassB = objectContainer.Get<TestClassBB>();
             TestClassB testClassB2 = objectContainer.Get<TestClassBB>();
             Assert.AreEqual(testClassB, testClassB2);
