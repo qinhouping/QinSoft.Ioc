@@ -11,24 +11,23 @@ namespace QinSoft.Ioc
 {
     /// <summary>
     /// Ioc应用程序
-    /// 单例模式
     /// </summary>
-    public class IocApplicationContext
+    public class IocApplicationContext : IDisposable
     {
         /// <summary>
         /// 对象工厂
         /// </summary>
-        protected ObjectFactory ObjectFactory { get; set; }
+        public ObjectFactory ObjectFactory { get; protected set; }
 
         /// <summary>
         /// 依赖注入扫描
         /// </summary>
-        protected DependencyInjectionScaner DependencyInjectionScaner { get; set; }
+        public DependencyInjectionScaner DependencyInjectionScaner { get; protected set; }
 
         /// <summary>
         /// 对象容器实例
         /// </summary>
-        private static ObjectContainer ObjectContainer;
+        public ObjectContainer ObjectContainer { get; protected set; }
 
         /// <summary>
         /// 注册对象工厂
@@ -82,22 +81,23 @@ namespace QinSoft.Ioc
         /// </summary>
         /// <typeparam name="T">对象容器类型</typeparam>
         /// <returns>对象容器实例</returns>
-        public virtual ObjectContainer BuildObjectContainer<T>() where T : ObjectContainer
+        public virtual IocApplicationContext BuildObjectContainer<T>() where T : ObjectContainer
         {
-            if (ObjectContainer == null)
-            {
-                ObjectContainer = new ObjectFactoryImp().CreateInstance<T>(this.ObjectFactory, this.DependencyInjectionScaner) as ObjectContainer;
-            }
-            return ObjectContainer;
+            if (this.ObjectFactory == null) throw new InvalidOperationException("not register object factory");
+            if (this.DependencyInjectionScaner == null) throw new InvalidOperationException("not register dependency injection scaner");
+            this.ObjectContainer = new ObjectFactoryImp().CreateInstance<T>(this.ObjectFactory, this.DependencyInjectionScaner) as ObjectContainer;
+            return this;
         }
 
         /// <summary>
-        /// 释放当前对象容器
+        /// 资源释放
         /// </summary>
-        public virtual void DisposeObjectContainer()
+        public void Dispose()
         {
-            ObjectContainer?.Clear();
-            ObjectContainer = null;
+            this.ObjectContainer?.Clear();
+            this.ObjectContainer = null;
+            this.DependencyInjectionScaner = null;
+            this.ObjectFactory = null;
         }
     }
 }
